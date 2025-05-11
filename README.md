@@ -9,11 +9,13 @@ A reactive, event-driven Spring Boot application using WebFlux, R2DBC, Kafka, Re
 1. Battery Ingestion Endpoint
    - Accepts name, postcode, watt capacity in bulk.
    - Persists in database.
+   - Assumptions - Every postcode is exactly 4 digits, Watt capacity is non-negative.
 
 2. Battery Query Endpoint
     - Filter by postcode range.
     - Return list of names (sorted).
     - Return total and average watt capacity.
+    - Assumptions - Total list of names could be very large depending on the query, so introduced pagination.
 
 3. Extended Query Support
    - Filter by min/max watt capacity.

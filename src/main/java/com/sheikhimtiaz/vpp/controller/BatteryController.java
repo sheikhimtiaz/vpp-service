@@ -3,6 +3,7 @@ package com.sheikhimtiaz.vpp.controller;
 import com.sheikhimtiaz.vpp.model.BatteryDto;
 import com.sheikhimtiaz.vpp.model.BatteryQueryResponse;
 import com.sheikhimtiaz.vpp.service.BatteryService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class BatteryController {
     }
 
     @PostMapping
-    public Mono<ResponseEntity<String>> register(@RequestBody List<BatteryDto> batteries) {
+    public Mono<ResponseEntity<String>> register(@RequestBody @Valid List<BatteryDto> batteries) {
         log.info("Received register request with {} batteries", batteries.size());
         return batteryService.registerBatteries(batteries)
                 .map(successMessage -> {

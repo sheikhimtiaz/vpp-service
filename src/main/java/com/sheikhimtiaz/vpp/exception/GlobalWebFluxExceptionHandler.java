@@ -1,16 +1,21 @@
 package com.sheikhimtiaz.vpp.exception;
 
+import org.springframework.context.MessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.support.WebExchangeBindException;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -66,6 +71,22 @@ public class GlobalWebFluxExceptionHandler {
     public Mono<ResponseEntity<Map<String, Object>>> handleGenericException(
             Exception ex, ServerWebExchange exchange) {
         return createErrorResponse(ex, HttpStatus.INTERNAL_SERVER_ERROR, exchange);
+    }
+
+    @ExceptionHandler(HandlerMethodValidationException.class)
+    public Mono<ResponseEntity<Map<String, Object>>> handleHandlerMethodValidationException(
+            HandlerMethodValidationException ex, ServerWebExchange exchange) {
+
+        String error = ex.getParameterValidationResults()
+                .stream()
+                .flatMap(result -> result.getResolvableErrors().stream())
+                .map(MessageSourceResolvable::getDefaultMessage)
+                .collect(Collectors.joining(", "));
+
+        return createErrorResponse(
+                new ValidationException("Validation failed: " + error),
+                HttpStatus.BAD_REQUEST,
+                exchange);
     }
 
     private Mono<ResponseEntity<Map<String, Object>>> createErrorResponse(
