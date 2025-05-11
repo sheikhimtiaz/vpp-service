@@ -1,0 +1,75 @@
+spring:
+  application:
+    name: vpp-service
+    version: v1
+
+  webflux:
+    base-path: /api
+
+  codec:
+    max-in-memory-size: 10MB
+
+  r2dbc:
+    url: r2dbc:postgresql://${env.PG_HOST}:${env.PG_PORT}/${env.PG_DATABASE}
+    username: ${env.PG_USER}
+    password: ${env.PG_PASSWORD}
+
+  sql:
+    init:
+      mode: always
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/db.master.xml
+    drop-first: false  # Do not drop tables before migration
+    contexts: development      # Define Liquibase execution environments
+
+  kafka:
+    bootstrap-servers: ${env.KAFKA_BOOTSTRAP}
+    consumer:
+      group-id: vpp-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+  redis:
+    host: ${env.REDIS_HOST}
+    port: ${env.REDIS_PORT}
+
+server:
+  port: ${env.APP_PORT}
+
+logging:
+  level:
+    org.springframework: INFO
+    com.sheikhimtiaz.vpp: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
+    try-it-out-enabled: true
+    filter: true
+
+openapi:
+  dev-url: http://localhost:8080
