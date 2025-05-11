@@ -1,4 +1,4 @@
-package com.sheikhimtiaz.vpp.integration.repository;
+package com.sheikhimtiaz.vpp.repository;
 
 import com.sheikhimtiaz.vpp.entity.Battery;
 import com.sheikhimtiaz.vpp.repository.BatteryRepository;

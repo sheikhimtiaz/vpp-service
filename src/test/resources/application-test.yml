@@ -1,10 +1,6 @@
 spring:
   application:
     name: vpp
-  r2dbc:
-    url: r2dbc:postgresql://localhost:5432/vppdbtest
-    username: sheikhimtiaz
-    password:
   sql:
     init:
       mode: always
