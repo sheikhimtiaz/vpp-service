@@ -79,27 +79,6 @@ PG_PORT=
 
 These values are picked up automatically by the co.uzzu.dotenv.gradle plugin.
 
-### 🐘 Build the Application
-
-```
-./gradlew build
-```
-
-### 🧪 Run Tests
-
-```
-./gradlew test
-```
-
-
-###  🧬 Database Migrations with Liquibase
-
-Run Migrations:
-```bash
-./gradlew update
-```
-Changelog path: src/main/resources/db/changelogs
-
 ### 🐬 Run Services
 Redis and kafka with Docker:
 ```bash
@@ -110,6 +89,26 @@ Create Kafka topic:
 ```bash
 bin/kafka-topics.sh --create --topic quickstart-events --bootstrap-server localhost:9092
 bin/kafka-topics.sh --describe --topic quickstart-events --bootstrap-server localhost:9092
+```
+
+### 🐘 Build the Application
+
+```
+./gradlew build
+```
+
+###  🧬 Database Migrations with Liquibase
+
+Run Migrations:
+```bash
+./gradlew update
+```
+Changelog path: src/main/resources/db/changelogs
+
+### 🧪 Run Tests
+
+```
+./gradlew test
 ```
 
 ### 🚀 Run the Application
