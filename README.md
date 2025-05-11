@@ -85,6 +85,8 @@ Redis and kafka with Docker:
 docker run --name redis -p 6379:6379 -d redis
 docker run --name kafka -p 9092:9092 apache/kafka:4.0.0  
 ```
+Download Kafka from Here: https://kafka.apache.org/quickstart
+
 Create Kafka topic:
 ```bash
 bin/kafka-topics.sh --create --topic quickstart-events --bootstrap-server localhost:9092
